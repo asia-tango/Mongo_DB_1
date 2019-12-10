@@ -17,6 +17,68 @@ MongoClient.connect(url, { useUnifiedTopology: true}, async function(err, client
 
     //-------------------------------USERS----------------------------------
 
+    // - Create 2 users per department (a, b, c)
+    users.insertMany ([
+        {
+          id: Math.random(),
+          firstName: 'Andrew',
+          lastName: 'Rayan',
+          department: "a",
+          createdAt: new Date()
+        },
+        {
+          id: Math.random(),
+          firstName: 'Andrew',
+          lastName: "Rayan",
+          department: "b",
+          createdAt: new Date()
+        },
+        {
+          id: Math.random(),
+          firstName: 'Andrew',
+          lastName: "Rayan",
+          department: "c",
+          createdAt: new Date()
+        },
+        {
+            id: Math.random(),
+            firstName: 'John',
+            lastName: 'Doe',
+            department: "a",
+            createdAt: new Date()
+          },
+          {
+            id: Math.random(),
+            firstName: 'John',
+            lastName: "Doe",
+            department: "b",
+            createdAt: new Date()
+          },
+          {
+            id: Math.random(),
+            firstName: 'John',
+            lastName: "Doe",
+            department: "c",
+            createdAt: new Date()
+          },
+          
+      ]);
+
+    // - Delete 1 user from department (a)
+    users.deleteOne ({ filter: 
+        { department: 'a' } 
+    });
+
+    // - Update firstName for users from department (b)
+    users.updateMany(
+        {department: 'b'} ,
+        {$set: {
+            firstName: 'superName' 
+         }
+    });
+
+    // - Find all users from department (c)
+    users.find({ department: 'c' });
 
     //------------------------------ARTICLES----------------------------------
 
