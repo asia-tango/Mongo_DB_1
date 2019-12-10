@@ -17,7 +17,94 @@ MongoClient.connect(url, { useUnifiedTopology: true}, async function(err, client
 
     //-------------------------------USERS----------------------------------
 
+
     //------------------------------ARTICLES----------------------------------
+
+    // - Create 5 articles per each type (a, b, c)
+    db.getCollection('articles').insertMany([   
+        {
+          name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'a',
+          tags: []
+         },
+         {
+          name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'a',
+          tags: []
+         },
+         {
+          name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'a',
+          tags: []
+         },
+         {
+          name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'b',
+          tags: []
+          },
+          {
+          name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'b',
+          tags: []
+          },
+          {
+          name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'b',
+          tags: []
+          },
+          {
+           name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'c',
+          tags: []
+          },
+          {
+           name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'c',
+          tags: []
+          },
+          {
+           name:  'Mongodb - introduction',
+          description: 'Mongodb - text',
+          type: 'c',
+          tags: []
+          }
+    ])
+
+    // - Find articles with type a, and update tag list with next value [‘tag1-a’, ‘tag2-a’, ‘tag3’]
+    db.getCollection('articles').updateMany(
+        {type: 'a'},
+        {$push: {
+            tags: { $each: [ 'tag1-a', 'tag2-a', 'tag3-a', ] } 
+         }
+    })
+
+    // - Add tags [‘tag2’, ‘tag3’, ‘super’] to other articles except articles from type a
+    db.getCollection('articles').updateMany(
+        {type: {$ne: 'a'} },
+        {$push: {
+            tags: { $each: [ 'tag2', 'tag3', 'super', ] } 
+         }
+    })
+
+    // - Find all articles that contains tags [tag2, tag1-a]
+    db.getCollection('articles').find(
+        {tags: { $in: ['tag2', 'tag1-a'] }}
+    )
+
+    // - Pull [tag2, tag1-a] from all articles
+    db.getCollection('articles').updateMany(
+        {},
+        { $pull: {tags: { $in: [ 'tag1-a', 'tag2'] }}    }
+    )
+
 
     //------------------------------STUDENTS----------------------------------
 
